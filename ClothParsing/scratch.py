@@ -73,6 +73,15 @@ def numpy():
     d = np.sum(c, axis=1)
     print(c, d)
 
+def pillow():
+    img = Image.open('1534.jpg')
+    print(img.size)
+    a = np.asarray(img)
+    print(a.shape)
+    b = Image.fromarray(a[:40, :, :])
+    print(b.size)
+    b.show()
+
 
 if __name__ == '__main__':
     print("----------- start -------------")
@@ -80,6 +89,7 @@ if __name__ == '__main__':
     # fashion_product()
     # test_tensor()
     # softmax()
-    numpy()
+    # numpy()
+    pillow()
 
     print("------------ end --------------")
