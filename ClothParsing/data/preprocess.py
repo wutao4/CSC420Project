@@ -69,12 +69,14 @@ if __name__ == '__main__':
     df = df.set_index('id', drop=False)
     f = open(TRAINLIST_PATH, 'r')
     lines = f.readlines()
+    print("Training set size:", len(lines))
     for row_id in lines:
         row = df.loc[int(row_id.rstrip())]
         train[row['articleType']] += 1
     f.close()
     f = open(TESTLIST_PATH, 'r')
     lines = f.readlines()
+    print("Test set size:", len(lines))
     for row_id in lines:
         row = df.loc[int(row_id.rstrip())]
         test[row['articleType']] += 1

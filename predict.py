@@ -118,10 +118,10 @@ for i in range(len(patches)):
         c_pred = cmodel(c_image)
     c_pred = c_pred.cpu().squeeze()
     c_idx = np.argmax(c_pred)
-    print(c_pred, header.TYPES[c_idx])
+    print(c_pred, "====>", header.TYPES[c_idx])
 
     # Set threshold for prediction confidence, and draw predictions
-    threshold = 0.1
+    threshold = 0.5
     if c_pred[c_idx] > threshold:  # TODO
         cv.rectangle(im, (w_min[i], h_min[i]), (w_max[i], h_max[i]), colors[i], thickness=2)
         cv.putText(im, header.TYPES[c_idx], (w_min[i], h_min[i] + 20),
