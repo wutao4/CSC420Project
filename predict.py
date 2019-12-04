@@ -165,7 +165,7 @@ bottomwear = im[h_min[2]:h_max[2], w_min[2]:w_max[2], :]
 footwear1 = im[h_min[3]:h_max[3], w_min[3]:w_max[3], :]
 footwear2 = im[h_min[4]:h_max[4], w_min[4]:w_max[4], :]
 patches = [headwear, topwear, bottomwear, footwear1, footwear2]
-colors = [(255, 255, 0), (255, 0, 0), (0, 0, 255), (255, 0, 255), (0, 255, 0)]
+colors = [(255, 255, 0), (255, 0, 0), (0, 0, 255), (255, 0, 255), (0, 255, 255)]
 
 # Predict each patch
 for i in range(len(patches)):
