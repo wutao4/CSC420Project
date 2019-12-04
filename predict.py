@@ -149,7 +149,7 @@ w_min = [                                      # min width for each patch
     max(0, int(head[1] - unit_w*0.4)),
     max(0, int(r_elbow[1] - unit_w*0.45)),
     max(0, int(r_ankle[1] - unit_w*0.5)),
-    max(0, int(l_ankle[1] - unit_w*0.25)),
+    max(0, int(l_ankle[1] - unit_w*0.4)),
     max(0, int(r_ankle[1] - unit_w*0.4))
 ]
 w_max = [                                      # max width for each patch
@@ -157,7 +157,7 @@ w_max = [                                      # max width for each patch
     min(width, int(l_elbow[1] + unit_w*0.45)),
     min(width, int(l_ankle[1] + unit_w*0.5)),
     min(width, int(l_ankle[1] + unit_w*0.4)),
-    min(width, int(r_ankle[1] + unit_w*0.25))
+    min(width, int(r_ankle[1] + unit_w*0.4))
 ]
 headwear = im[h_min[0]:h_max[0], w_min[0]:w_max[0], :]
 topwear = im[h_min[1]:h_max[1], w_min[1]:w_max[1], :]
