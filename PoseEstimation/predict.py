@@ -14,7 +14,9 @@ def plt_image(image, label, model):
     ax1.title.set_text("image with label joints")
     ax2 = plt.subplot(1, 2, 2)
     ax2.title.set_text("image with predict joints")
-    pred = model(image)
+    with torch.no_grad():
+        pred = model(image)
+    pred = pred.cpu()
     image = image.squeeze().permute(1, 2, 0).cpu()
     image = np.array(image).astype(np.uint8)
     image = cv.cvtColor(image, cv.COLOR_BGR2RGB)
@@ -29,8 +31,6 @@ def plt_image(image, label, model):
         joint_dict[joint_name[i]]=[(label[0][x_index], label[0][y_index]), (pred[0][x_index], pred[0][y_index])]
         image_pred = cv.circle(image_pred, (pred[0][x_index], pred[0][y_index]), 2, color, 2)
         image_label = cv.circle(image_label, (label[0][x_index], label[0][y_index]), 2, color, 2)
-    image_label = cv.line(image_label, joint_dict['head'][0], joint_dict['lsho'][0],
-                          tuple(np.random.randint(0, 255, 3).tolist()), 2)
     # draw line from head to shoulder
     image_pred = cv.line(image_pred, joint_dict['head'][1], joint_dict['lsho'][1], (255, 0, 0), 2)
     image_label = cv.line(image_label, joint_dict['head'][0], joint_dict['lsho'][0], (255, 0, 0), 2)
@@ -66,7 +66,7 @@ if __name__ == '__main__':
         weight_path = "./residuenet_weight/weight_epoch50"
     elif model_select == "simplenet":
         model = simplenet.simpleNet(9)
-        weight_path = "./simple_weight/weight_epoch50"
+        weight_path = "./simple_weight/weight_epoch10"
     print("init model")
     device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
     torch.cuda.empty_cache()
@@ -74,8 +74,7 @@ if __name__ == '__main__':
     model.eval()
     model.load_state_dict(torch.load(weight_path))
     print("initial test dataset")
-    testset = flic_dataset.mydataset("./data/FLIC/test_joints.csv", "./data/FLIC/images",
-                                     "[[1, 2], [3, 4], [5, 6], [7, 8]]")
+    testset = flic_dataset.mydataset("./data/FLIC/train_joints.csv", "./data/FLIC/images")
     testloader = torch.utils.data.DataLoader(testset,shuffle=True)
     image, label = next(iter(testloader))
     image = image.to(device)

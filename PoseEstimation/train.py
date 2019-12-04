@@ -52,18 +52,22 @@ def train_model(model,criterion,optimizer,dataload,weight_path,test_loader, devi
 
 
 if __name__ == '__main__':
-    model_select = "simplenet"
+    model_select = "mpii"
     if model_select == "deepnet":
         model = deepnet.DeepNet(9)
         weight_path = "./deepnet_weight/weight_epoch"
         lr = 0.00001
     elif model_select == "resnet":
         model = resnet.ResidualNet(9)
-        weight_path = "./residuenet_weight/weight_epoch"
+        weight_path = "./residual_weight/weight_epoch"
         lr = 0.0001
     elif model_select == "simplenet":
         model = simplenet.simpleNet(9)
         weight_path = "./simple_weight/weight_epoch"
+        lr = 0.0001
+    elif model_select == "mpii":
+        model = resnet.ResidualNet(16)
+        weight_path = "./mpii_weight/weight_epoch"
         lr = 0.00001
     print("init model")
     # model = model.ResidualNet(9)
@@ -74,14 +78,12 @@ if __name__ == '__main__':
     optimizer = optim.Adam(model.parameters(), lr=lr)
     loss = nn.modules.loss.MSELoss()
     print("Load dataset")
-    trainset = flic_dataset.mydataset("./data/FLIC/train_joints.csv", "./data/FLIC/images",
-                                      "[[1, 2], [3, 4], [5, 6], [7, 8]]")
-    trainloader = torch.utils.data.DataLoader(trainset, batch_size= 16, shuffle=True)
-    testset = flic_dataset.mydataset("./data/FLIC/test_joints.csv", "./data/FLIC/images",
-                                      "[[1, 2], [3, 4], [5, 6], [7, 8]]")
+    trainset = flic_dataset.mydataset("./data/FLIC/train_joints.csv", "./data/FLIC/images")
+    trainloader = torch.utils.data.DataLoader(trainset, batch_size= 10, shuffle=True)
+    testset = flic_dataset.mydataset("./data/FLIC/test_joints.csv", "./data/FLIC/images")
     testloader = torch.utils.data.DataLoader(testset)
     print("start training")
-    test_list = train_model(model, loss, optimizer, trainloader, weight_path, testloader, device, 1)
+    test_list = train_model(model, loss, optimizer, trainloader, weight_path, testloader, device, 101)
     print(test_list)
 
 
